@@ -1,0 +1,13 @@
+
+.register-page-login-div{
+    display: flex;
+    flex-direction: column;
+
+    width: 600px;
+    height: 400px;
+    margin: auto;
+}
+
+#register-card .ant-card-body{
+    height: 100%;
+}

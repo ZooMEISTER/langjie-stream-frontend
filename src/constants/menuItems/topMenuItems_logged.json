@@ -8,7 +8,14 @@
         "label": "直播间"
     },
     {
+        "id": "top-menu-item-login",
         "key": "me",
-        "label": "我"
+        "label": "我",
+        "children": [
+            {
+                "key": "logout",
+                "label": "退出登录"
+            }
+        ]
     }
 ]
