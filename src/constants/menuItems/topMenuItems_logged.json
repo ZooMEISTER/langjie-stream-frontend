@@ -1,0 +1,14 @@
+[
+    {
+        "key": "first-page",
+        "label": "首页"
+    },
+    {
+        "key": "all-live-room",
+        "label": "直播间"
+    },
+    {
+        "key": "me",
+        "label": "我"
+    }
+]

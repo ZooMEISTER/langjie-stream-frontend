@@ -1,0 +1,19 @@
+[
+    {
+        "key": "first-page",
+        "label": "首页"
+    },
+    {
+        "key": "all-live-room",
+        "label": "直播间"
+    },
+    {
+        "id": "top-menu-item-login",
+        "key": "login",
+        "label": "登录"
+    },
+    {
+        "key": "register",
+        "label": "注册"
+    }
+]
