@@ -66,7 +66,7 @@ userRequest.interceptors.request.use((config) => {
 userRequest.interceptors.response.use((response) => {
     switch(response.data.resultType){
         case "success":
-            message.success(response.data.resultCode + ": " + response.data.msg)
+            // message.success(response.data.resultCode + ": " + response.data.msg)
             break
         case "info":
             message.info(response.data.resultCode + ": " + response.data.msg)

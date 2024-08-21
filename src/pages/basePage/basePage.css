@@ -1,0 +1,6 @@
+/* 无边框输入框 */
+.input-no-border{
+    border: solid;
+    border-width: 1px;
+    outline: none;
+}

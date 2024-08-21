@@ -7,6 +7,7 @@ import "./loginPage.css"
 
 import { touristRequest } from '../../utils/request';
 import { userLoginState_setValue } from '../../store/modules/userLoginStateStore';
+import { userId_setValue } from '../../store/modules/userIdStore';
 
 const LoginPage = () => {
     const dispatch = useDispatch()
@@ -30,17 +31,18 @@ const LoginPage = () => {
             user_name: values.user_name,
             user_password: values.user_password
         })
-        .then(function (response) {
+        .then((response) => {
             console.log(response.data);
             if(response.data.resultCode == 11001){
                 // 登陆成功，把token放到localStorage里面
                 localStorage.setItem("langjie-stream-login-token", response.data.token)
+                dispatch(userId_setValue(response.data.user_id))
                 dispatch(userLoginState_setValue(true))
                 navigate("/")
             }
         })
-        .catch(function (error) {
-            console.log(error);
+        .catch((error) => {
+            console.error(error);
         })
     };
     const onFinishFailed = (errorInfo) => {

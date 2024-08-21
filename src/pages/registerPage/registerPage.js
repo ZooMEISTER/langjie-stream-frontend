@@ -37,14 +37,14 @@ const RegisterPage = () => {
             user_name: values.user_name,
             user_password: values.user_password
         })
-        .then(function (response) {
+        .then((response) => {
             console.log(response);
             if(response.data.resultCode == 11000){
                 navigate("/login")
             }
         })
-        .catch(function (error) {
-            console.log(error);
+        .catch((error) => {
+            console.error(error);
         })
     };
     const onFinishFailed = (errorInfo) => {

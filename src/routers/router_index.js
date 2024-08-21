@@ -3,7 +3,11 @@ import LoginPage from '../pages/loginPage/loginPage';
 import RegisterPage from '../pages/registerPage/registerPage';
 import FrontPage from '../pages/frontPage/frontPage';
 import FirstPage from '../pages/firstPage/firstPage';
-import AllLiveRoomPage from '../pages/allLiveRoomPage/allLiveRoomPage';
+import LiveRoomPage from '../pages/liveRoomPage/liveRoomPage';
+import AllLiveRoom from '../pages/liveRoomPage/allLiveRoom/allLiveRoom';
+import MyLiveRoom from '../pages/liveRoomPage/myLiveRoom/myLiveRoom';
+
+import LiveRoom from '../pages/liveRoomPage/liveRoom/liveRoom';
 
 import { createBrowserRouter } from 'react-router-dom';
 
@@ -23,7 +27,17 @@ const router = createBrowserRouter([
                     },
                     {
                         path: "/all-live-room",
-                        element: <AllLiveRoomPage/>
+                        element: <LiveRoomPage/>,
+                        children: [
+                            {
+                                index: true,
+                                element: <AllLiveRoom/>
+                            },
+                            {
+                                path: "/all-live-room/mine",
+                                element: <MyLiveRoom/>
+                            }
+                        ]
                     },
                     {
                         path: "/login",
@@ -35,6 +49,10 @@ const router = createBrowserRouter([
                     }
                 ]
             },
+            {
+                path: "/stream",
+                element: <LiveRoom/>
+            }
         ]
     },
 ])

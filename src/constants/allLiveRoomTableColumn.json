@@ -1,0 +1,36 @@
+[
+    {
+        "title": "直播间ID",
+        "dataIndex": "live_id",
+        "key": "live_id"
+    },
+    {
+        "title": "直播间名",
+        "dataIndex": "live_name",
+        "key": "live_name"
+    },
+    {
+        "title": "直播间描述",
+        "dataIndex": "live_description",
+        "key": "live_description"
+    },
+    {
+        "title": "直播间创建者",
+        "dataIndex": "live_creator_name",
+        "key": "live_creator_name"
+    },
+    {
+        "title": "密码",
+        "dataIndex": "hasPassword",
+        "key": "hasPassword"
+    },
+    {
+        "title": "直播间创建时间",
+        "dataIndex": "live_create_time",
+        "key": "live_create_time"
+    },
+    {
+        "title": "操作",
+        "key": "live_room_operation"
+    }
+]

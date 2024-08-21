@@ -1,0 +1,38 @@
+
+.all-live-room-root-div{
+    display: flex;
+    flex-direction: column;
+
+    flex: 1;
+}
+
+/* 所有直播间筛选，搜索，新建栏 */
+.all-live-room-top-div{
+    display: flex;
+    flex-direction: row;
+
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+
+.create-live-room-button{
+    margin-left: auto;
+    margin-right: 10px;
+}
+.refresh-live-room-button{
+
+}
+
+
+/* 所有直播间列表 */
+.all-live-room-list{
+    display: flex;
+    flex-direction: column;
+
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}

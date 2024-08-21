@@ -1,0 +1,10 @@
+[
+    {
+        "key": "all-live-room",
+        "label": "所有直播间"
+    },
+    {
+        "key": "my-live-room",
+        "label": "我的直播间"
+    }
+]

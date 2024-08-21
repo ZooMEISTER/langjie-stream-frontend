@@ -1,0 +1,10 @@
+[
+    {
+        "key": "chat",
+        "label": "聊天"
+    },
+    {
+        "key": "audience",
+        "label": "观众"
+    }
+]
