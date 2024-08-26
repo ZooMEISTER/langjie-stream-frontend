@@ -15,10 +15,6 @@ const LoginPage = () => {
     // 对表单的引用
     const [form] = Form.useForm(); 
 
-    // 用户登录的用户信息
-    let user_name = useRef("")
-    let user_password = useRef("")
-
     // 游客登录
     // 表单验证成功后调用
     const onFinish = (values) => {
@@ -32,7 +28,7 @@ const LoginPage = () => {
             user_password: values.user_password
         })
         .then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             if(response.data.resultCode == 11001){
                 // 登陆成功，把token放到localStorage里面
                 localStorage.setItem("langjie-stream-login-token", response.data.token)
@@ -69,7 +65,7 @@ const LoginPage = () => {
                             required: true,
                             message: '请输入用户名',
                         }]}>
-                        <Input onChange={(e) => {user_name.current = e.target.value}}/>
+                        <Input/>
                     </Form.Item>
 
                     <Form.Item
@@ -79,7 +75,7 @@ const LoginPage = () => {
                             {required: true, message: '请输入密码'},
                             {pattern: "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$", message: '密码仅能且须由字母和数字组成,且长度为 8-16 位'}
                             ]}>
-                        <Input.Password onChange={(e) => {user_password.current = e.target.value}}/>
+                        <Input.Password/>
                     </Form.Item>
 
                     <Form.Item

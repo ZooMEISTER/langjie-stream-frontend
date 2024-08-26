@@ -23,7 +23,7 @@ const EnterLiveRoomModal = ({modalOpenInfo, setModalOpenInfo, enterLiveRoom}) =>
             <Modal title={"进入直播间"} open={modalOpenInfo.open} footer={false} onCancel={notEnterLiveRoom}>
                 <label style={{fontSize: "15px"}}>密码:</label>
                 <Input style={{marginTop: "5px"}} onChange={liveRoomPasswordInputChange}/>
-                <Button style={{width: "100%", marginTop: "20px"}} type="primary" onClick={() => enterLiveRoom(modalOpenInfo.live_id, inputPassword.current)}>
+                <Button style={{width: "100%", marginTop: "20px"}} type="primary" onClick={() => enterLiveRoom(modalOpenInfo.live_id, inputPassword.current, modalOpenInfo.live_type)}>
                     进入
                 </Button>
             </Modal>

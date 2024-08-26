@@ -8,13 +8,13 @@ import 'xgplayer/dist/index.min.css';
 import Danmu from 'xgplayer/es/plugins/danmu'
 import 'xgplayer/es/plugins/danmu/index.css'
 
-import "./liveRoom.css"
+import "./defaultLiveRoom.css"
 
-import { userRequest } from '../../../utils/request';
-import LiveRoomRightTabItems from "../../../constants/liveRoomRightTabItems.json"
+import { userRequest } from '../../../../utils/request';
+import LiveRoomRightTabItems from "../../../../constants/liveRoomRightTabItems.json"
 
 
-const LiveRoom = () => {
+const LiveRoom_Default = () => {
     const { TextArea } = Input;
     // 获取用户id
     const user_id = useSelector(state => state.userId.value)
@@ -181,7 +181,8 @@ const LiveRoom = () => {
                         }
                         
                         break;
-                    case "SERVER_INFO":
+                    case "SERVER_INFO_CONNECT_DISCONNECT":
+                    case "SERVER_INFO_USER_IN_OUT":
                         // 是服务器发送的信息
                         // 发送的信息
                         newComeMsgLabel.style.whiteSpace = "pre-wrap"
@@ -341,6 +342,12 @@ const LiveRoom = () => {
                                 <label style={{whiteSpace: "nowrap"}}>拉流路径:&nbsp;</label>
                                 <label style={{maxWidth: "300px", whiteSpace: "pre-wrap", wordWrap: "break-word"}}>{currentLiveRoomInfo.live_pull_path}</label>
                             </div>
+                            {user_id == currentLiveRoomInfo.live_creator && 
+                                <div style={{display: "flex", flexDirection: "row"}}>
+                                    <label style={{whiteSpace: "nowrap"}}>推流路径:&nbsp;</label>
+                                    <label style={{maxWidth: "300px", whiteSpace: "pre-wrap", wordWrap: "break-word"}}>{currentLiveRoomInfo.live_push_path}</label>
+                                </div>
+                            }
                         </div>
                     }
                     showCancel={false}
@@ -401,4 +408,4 @@ const LiveRoom = () => {
     )
 }
 
-export default LiveRoom
+export default LiveRoom_Default

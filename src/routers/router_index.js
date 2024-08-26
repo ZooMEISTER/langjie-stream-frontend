@@ -7,7 +7,8 @@ import LiveRoomPage from '../pages/liveRoomPage/liveRoomPage';
 import AllLiveRoom from '../pages/liveRoomPage/allLiveRoom/allLiveRoom';
 import MyLiveRoom from '../pages/liveRoomPage/myLiveRoom/myLiveRoom';
 
-import LiveRoom from '../pages/liveRoomPage/liveRoom/liveRoom';
+import LiveRoom_Default from '../pages/liveRoomPage/liveRoom/default/defaultLiveRoom';
+import LiveRoom_Lottery from '../pages/liveRoomPage/liveRoom/lottery/lotteryLiveRoom';
 
 import { createBrowserRouter } from 'react-router-dom';
 
@@ -50,8 +51,12 @@ const router = createBrowserRouter([
                 ]
             },
             {
-                path: "/stream",
-                element: <LiveRoom/>
+                path: "/stream/default",
+                element: <LiveRoom_Default/>
+            },
+            {
+                path: "/stream/lottery",
+                element: <LiveRoom_Lottery/>
             }
         ]
     },

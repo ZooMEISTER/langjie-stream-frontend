@@ -1,25 +1,45 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Modal, Form, Input, Button, Switch } from 'antd';
+import { Modal, Form, Input, Button, Switch, message, DatePicker, Select } from 'antd';
 
 import { userRequest } from '../../../utils/request';
 
-const NewLiveRoomModal = ({isModalOpen, setIsModalOpen}) => {
+const NewLiveRoomModal = ({isModalOpen, setIsModalOpen, refreshLiveRoom}) => {
     const { TextArea } = Input;
+    const { RangePicker } = DatePicker;
     // 对表单的引用
     const [form] = Form.useForm(); 
 
-    // 直播间名
-    let live_name = useRef("")
-    // 直播间描述
-    let live_description = useRef("")
-    // 直播间密码
-    let live_password = useRef("")
+    let renderTime = useRef(0)
+
+    const [liveType, setLiveType] = useState([])
+
     // 自动分配流路径
     const [autoAllocateStreamPath, setAutoAllocateStreamPath] = useState(false)
-    // 直播间推流路径
-    let live_push_path = useRef("")
-    // 直播间拉流路径
-    let live_pull_path = useRef("")
+
+    useEffect(() => {
+        if(renderTime.current <= 0){
+            // 获取直播间的类型
+            userRequest.get("/live/get-live-type")
+            .then((response) => {
+                console.log(response.data)
+                if(response.data.liveTypePOList != undefined){
+                    let _liveType = []
+                    for(let i = 0; i < response.data.liveTypePOList.length; i++){
+                        _liveType.push({
+                            label: response.data.liveTypePOList[i].live_type_name,
+                            value: response.data.liveTypePOList[i].live_type_code
+                        })
+                    }
+                    setLiveType(_liveType)
+                }
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+
+            renderTime.current++;
+        }
+    }, [isModalOpen])
 
     // 表单验证成功后调用
     const onFinish = (values) => {
@@ -29,13 +49,28 @@ const NewLiveRoomModal = ({isModalOpen, setIsModalOpen}) => {
             live_name: values.live_name,
             live_description: values.live_description,
             live_password: values.live_password ? values.live_password : "",
+            live_type: values.live_type,
             autoAllocateStreamPath: values.autoAllocateStreamPath ? values.autoAllocateStreamPath : false,
             live_push_path: values.live_push_path ? values.live_push_path : "",
-            live_pull_path: values.live_pull_path ? values.live_pull_path : ""
+            live_pull_path: values.live_pull_path ? values.live_pull_path : "",
+            live_start_time: new Date(values.live_time[0]).getTime(),
+            live_end_time: new Date(values.live_time[1]).getTime()
         })
         .then((response) => {
             console.log(response.data)
+            switch(response.data.resultType){
+                case "success":
+                    message.success(response.data.resultCode + ": " + response.data.msg)
+                    break
+                case "info":
+                    message.info(response.data.resultCode + ": " + response.data.msg)
+                    break
+                case "error":
+                    message.error(response.data.resultCode + ": " + response.data.msg)
+                    break
+            }
             if(response.data.resultCode == 13000){
+                refreshLiveRoom()
                 setIsModalOpen(false)
             }
         })
@@ -73,7 +108,7 @@ const NewLiveRoomModal = ({isModalOpen, setIsModalOpen}) => {
                             required: true,
                             message: '请输入直播间名',
                         }]}>
-                        <Input placeholder='直播间名' autoComplete="off" onChange={(e) => {live_name.current = e.target.value}}/>
+                        <Input placeholder='直播间名' autoComplete="off"/>
                     </Form.Item>
 
                     <Form.Item
@@ -83,14 +118,35 @@ const NewLiveRoomModal = ({isModalOpen, setIsModalOpen}) => {
                             required: true, 
                             message: '请输入直播间描述'
                         }]}>
-                        <TextArea placeholder='直播间描述' autoComplete="off" autoSize onChange={(e) => {live_description.current = e.target.value}}/>
+                        <TextArea placeholder='直播间描述' autoComplete="off" autoSize/>
                     </Form.Item>
 
                     <Form.Item
                         label="直播间密码"
                         name="live_password"
                         rules={[]}>
-                        <Input.Password placeholder='留空以不设密码' autoComplete="off" onChange={(e) => {live_password.current = e.target.value}}/>
+                        <Input.Password placeholder='留空以不设密码' autoComplete="off"/>
+                    </Form.Item>
+
+                    <Form.Item
+                        label="直播时间"
+                        name="live_time"
+                        rules={[{
+                            required: true, 
+                            message: '请输入直播间开始结束时间'
+                        }]}>
+                        <RangePicker showTime/>
+                    </Form.Item>
+
+                    <Form.Item
+                        label="直播类型"
+                        name="live_type"
+                        initialValue={liveType.length > 0 ? liveType[0].value : ""} 
+                        rules={[{
+                            required: true, 
+                            message: '请选择直播类型'
+                        }]}>
+                        <Select options={liveType}/>
                     </Form.Item>
 
                     <Form.Item
@@ -106,14 +162,14 @@ const NewLiveRoomModal = ({isModalOpen, setIsModalOpen}) => {
                                 label="直播间推流路径"
                                 name="live_push_path"
                                 rules={[]}>
-                                <Input placeholder='推流路径' autoComplete="off" onChange={(e) => {live_push_path.current = e.target.value}}/>
+                                <Input placeholder='推流路径' autoComplete="off"/>
                             </Form.Item>
 
                             <Form.Item
                                 label="直播间拉流路径"
                                 name="live_pull_path"
                                 rules={[]}>
-                                <Input placeholder='拉流路径' autoComplete="off" onChange={(e) => {live_pull_path.current = e.target.value}}/>
+                                <Input placeholder='拉流路径' autoComplete="off"/>
                             </Form.Item>
                         </>
                     }

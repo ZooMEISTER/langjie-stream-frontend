@@ -11,15 +11,10 @@ const RegisterPage = () => {
     // 对表单的引用
     const [form] = Form.useForm(); 
 
-    // 用户注册的用户信息
-    let user_name = useRef("")
-    let user_password = useRef("")
-    let user_password_ = useRef("")
-
     // 确认密码的校验器
     const passwordConfValidator = (rule, val, callback) => {
         if(!(val === form.getFieldValue("user_password"))){
-            console.log(val + " " + form.getFieldValue("password-1"))
+            // console.log(val + " " + form.getFieldValue("password-1"))
             callback("两次输入的密码不同")
         }
         callback()
@@ -35,10 +30,12 @@ const RegisterPage = () => {
         // 在这里向后端发送注册请求
         touristRequest.post('/tourist/register', {
             user_name: values.user_name,
-            user_password: values.user_password
+            user_password: values.user_password,
+            user_real_name: values.user_real_name == undefined ? "" : values.user_real_name,
+            user_organization: values.user_organization == undefined ? "" : values.user_organization
         })
         .then((response) => {
-            console.log(response);
+            // console.log(response);
             if(response.data.resultCode == 11000){
                 navigate("/login")
             }
@@ -71,7 +68,7 @@ const RegisterPage = () => {
                             required: true,
                             message: '请输入用户名',
                         }]}>
-                        <Input onChange={(e) => {user_name.current = e.target.value}}/>
+                        <Input/>
                     </Form.Item>
 
                     <Form.Item
@@ -81,7 +78,7 @@ const RegisterPage = () => {
                             {required: true, message: '请输入密码'},
                             {pattern: "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$", message: '密码仅能且须由字母和数字组成,且长度为 8-16 位'}
                             ]}>
-                        <Input.Password onChange={(e) => {user_password.current = e.target.value}}/>
+                        <Input.Password/>
                     </Form.Item>
 
                     <Form.Item
@@ -91,7 +88,21 @@ const RegisterPage = () => {
                             {required: true, message: '请确认密码'},
                             {validator: passwordConfValidator}
                         ]}>
-                        <Input.Password onChange={(e) => {user_password_.current = e.target.value}}/>
+                        <Input.Password/>
+                    </Form.Item>
+
+                    <Form.Item
+                        label="真名"
+                        name="user_real_name"
+                        rules={[]}>
+                        <Input/>
+                    </Form.Item>
+
+                    <Form.Item
+                        label="组织"
+                        name="user_organization"
+                        rules={[]}>
+                        <Input/>
                     </Form.Item>
 
                     <Form.Item
