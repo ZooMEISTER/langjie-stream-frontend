@@ -3,7 +3,7 @@ import { Modal, Form, Input, Button, Switch, message, DatePicker, Select, InputN
 
 import { userRequest } from '../../../utils/request';
 
-const NewPrizeModal = ({isModalOpen, setIsModalOpen}) => {
+const NewPrizeModal = ({isModalOpen, setIsModalOpen, live_id, getLiveRoomPrize}) => {
     const { TextArea } = Input;
     const { RangePicker } = DatePicker;
     // 对表单的引用
@@ -16,7 +16,23 @@ const NewPrizeModal = ({isModalOpen, setIsModalOpen}) => {
     useEffect(() => {
         if(renderTime.current <= 0){
             // 从数据库获取奖品的等级
-
+            userRequest.get("/live/get-prize-type")
+            .then((response) => {
+                // console.log(response.data)
+                if(response.data.resultCode == 13230){
+                    let tmp = []
+                    for(let i = 0; i < response.data.list.length; i++){
+                        tmp.push({
+                            label: response.data.list[i].prize_type_name,
+                            value: response.data.list[i].prize_type_code
+                        })
+                    }
+                    setPrizeType(tmp)
+                }
+            })
+            .catch((error) => {
+                console.error(error)
+            })
 
             renderTime.current++
         }
@@ -25,7 +41,25 @@ const NewPrizeModal = ({isModalOpen, setIsModalOpen}) => {
     // 表单验证成功后调用
     const onFinish = (values) => {
         console.log('Success:', values);
-        
+        userRequest.post("/live/add-new-prize", {
+            live_id: live_id,
+            prize_pic: "",
+            prize_name: values.prize_name,
+            prize_description: values.prize_description == undefined ? "" : values.prize_description,
+            prize_count: values.prize_count,
+            prize_level: values.prize_level
+        })
+        .then((response) => {
+            console.log(response.data)
+            if(response.data.resultCode == 13240){
+                message.success(response.data.msg)
+                getLiveRoomPrize()
+                setIsModalOpen(false)
+            }
+        })
+        .catch((error) => {
+            console.error(error)
+        })
     };
     // 表单验证失败
     const onFinishFailed = (errorInfo) => {
@@ -62,7 +96,7 @@ const NewPrizeModal = ({isModalOpen, setIsModalOpen}) => {
 
                     <Form.Item
                         label="奖品描述"
-                        name="prize_descrption"
+                        name="prize_description"
                         rules={[]}>
                         <TextArea placeholder='奖品描述' autoComplete="off"/>
                     </Form.Item>
@@ -70,11 +104,12 @@ const NewPrizeModal = ({isModalOpen, setIsModalOpen}) => {
                     <Form.Item
                         label="奖品数量"
                         name="prize_count"
+                        initialValue={1}
                         rules={[{
                             required: true,
                             message: '请输入奖品数量',
                         }]}>
-                        <InputNumber placeholder='奖品数量' defaultValue={0} autoComplete="off"/>
+                        <InputNumber min={1} placeholder='奖品数量' autoComplete="off"/>
                     </Form.Item>
 
                     <Form.Item
@@ -84,7 +119,7 @@ const NewPrizeModal = ({isModalOpen, setIsModalOpen}) => {
                             required: true,
                             message: '请选择奖品等级',
                         }]}>
-                        <Select autoComplete="off"/>
+                        <Select options={prizeType} autoComplete="off"/>
                     </Form.Item>
 
                     <Form.Item

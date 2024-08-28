@@ -82,6 +82,7 @@
 
 /* 包含主直播页面的div */
 .lottery-live-room-main-video-div{
+    display: flex;
     flex: 1;
     background-color: gray;
 }
@@ -185,8 +186,6 @@
 .lottery-live-room-winner-div{
     display: flex;
     flex-direction: column;
-
-    overflow-y: scroll;
 
     min-height: calc(100% - 46px - 20px);
     max-height: calc(100% - 46px - 20px);
